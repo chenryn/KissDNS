@@ -1,0 +1,48 @@
+=pod
+
+=head1 NAME
+
+B<KissDNS> - A simple and stupid web-based DNS management system.
+
+=head1 PRINCIPLE
+
+By far, the most widely used DNS software is BIND. There are too many artices wrote about configure of BIND9 and its views, and also some web-based management systems by using the DLZ(dynamically loaded zones) support with mysql. 
+But first, we can absolutely know that the performace with DLZ should be much lower than text configuaration in memory.
+Second, the normal views are only cnc/ct/edu etc. But in CDNs, there will be hundreds of views. How to manage those?
+So here is KissDNS. I try to reuse existing things as simple as possible ---- basic install and configure for bind9, basic SQL to get/set informations. This means I do not need to generate views from MySQL tables. So, The idea of system can be seen as follow:
+
+ Have a template table with columns named viewid/view_alias/ip/querysum in database. Every canonical name domain provided to customers will have a table created as the template.
+ Then we can update the currect domain table by rows if we click the 'save' button after we modify one record of the resolve.
+
+ Every view have their own configuration. And there are a template record with normal currect IP in every configuration of views.
+ When we create a new table from template, we traverse the views directory and add the new domain record copied from template record to all configurations.
+ When we update the record in a table, we find the just view, editor the just string and reload the bind.
+ That is all!
+
+=head1 TODO
+
+=over 2
+
+=item 1
+An api to import new template into database and config texts.
+
+=item 2
+A script to sum the query numbers from query.log and update the records in database.
+
+=back
+
+=head1 DEPENDENCIES
+
+L<Dancer>, L<DBD::mysql>, L<Template>, L<YAML>, L<File::Slurp>
+
+=head1 AUTHOR
+
+C<(rao.chenlin@gmail.com) Jeff.Rao @ARGV>
+L<http://chenlinux.com/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2012, Jeff.Rao. All rights reserved.
+This program is free software; you may redistribute it and/or modify it under the same terms as Perl itself.
+
+=cut

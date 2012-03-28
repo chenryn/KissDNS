@@ -1,0 +1,8 @@
+<table>
+<tr><td>domain name</td>
+<td>cname</td></tr>
+<% FOREACH domain IN domain_names %>
+<tr><td><% domain.domain %></td>
+<td><a href="/info/<% domain.cname %>"><% domain.cname %></a></td></tr>
+<% END %>
+</table>

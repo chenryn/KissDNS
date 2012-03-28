@@ -1,0 +1,25 @@
+<script type="text/javascript">
+function updateIP(inputId) {
+    var newIP = document.getElementById(inputId).value;
+    if ( newIP == "" ) {
+        alert("must be a IP address");
+    }
+    var url = "/update/<% cname %>?vid=" + inputId + "&newip=" + newIP;
+    var request = new XMLHttpRequest(url);
+    request.send();
+}
+</script>
+
+<table>
+<tr><td>area</td>
+<td>query sum</td>
+<td>A record</td>
+</tr>
+<% FOREACH info IN infos %>
+<tr><td><% info.view_name %></td>
+<td><% info.query %></td>
+<td><input type="text" id="<% info.vid %>" value="<% info.ip %>" /></td>
+<td><input type="button" value="submit" onclick="updateIP(<% info.vid %>)"/></td>
+</tr>
+<% END %>
+</table>
